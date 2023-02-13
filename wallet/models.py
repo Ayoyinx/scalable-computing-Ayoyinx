@@ -48,7 +48,8 @@ class Wallet(models.Model):
     
     def save(self, *args, **kwargs):
 
-        self.id = self.generate_id()
+        if not self.id:
+            self.id = self.generate_id()
         self.full_clean()
 
         return super().save(*args, **kwargs)
