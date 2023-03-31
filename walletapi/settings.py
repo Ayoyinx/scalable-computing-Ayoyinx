@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-ne(o&opw=qcx=3ij+%_!n2m@&o4m203=$r%_(szl66j4nwaon9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'wallet-env.eba-gr5bgv3s.eu-north-1.elasticbeanstalk.com',
+    'localhost',
+    '127.0.0.1'
+]
 
 
 # Application definition
