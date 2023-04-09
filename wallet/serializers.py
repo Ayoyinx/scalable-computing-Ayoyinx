@@ -23,7 +23,6 @@ class FundWalletSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "amount",
-            "book_balance"
         ]
 
     def __init__(self, instance=None, **kwargs):
