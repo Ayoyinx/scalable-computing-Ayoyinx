@@ -59,10 +59,12 @@ class TransferWalledSerializer(serializers.Serializer):
         wallet = self.context["request"].user.wallet
         request = self.context["request"]
         if wallet.amount < attrs["amount"]+100:
-            raise serializers.ValidationError("Invalid amount in wallet")
+            raise serializers.ValidationError(
+                {"amount": "Invalid amount in wallet"})
 
         if wallet.id == attrs["reciever"].id:
-            raise serializers.ValidationError("Cannot Transfer to yourself")
+            raise serializers.ValidationError(
+                {"amount": "Cannot Transfer to yourself"})
 
         wallet = request.user.wallet
         wallet.amount -= attrs["amount"]
