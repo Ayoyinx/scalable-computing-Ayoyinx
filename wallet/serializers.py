@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import Wallet
+from .models import Wallet, History
 
 
 class WalletSerializer(serializers.ModelSerializer):
@@ -10,7 +10,6 @@ class WalletSerializer(serializers.ModelSerializer):
         fields = [
             "id",
             "amount",
-            "book_balance"
         ]
 
 
@@ -31,12 +30,20 @@ class FundWalletSerializer(serializers.ModelSerializer):
         super().__init__(instance, **kwargs)
 
         self.fields["id"].read_only = True
-        self.fields["book_balance"].read_only = True
 
     def update(self, instance, validated_data):
+        request = self.context["request"]
         instance.amount += validated_data["amount"]
-        instance.book_balance += validated_data["amount"]
         instance.save()
+
+        reciever = request.user.wallet
+        History.objects.create(
+            user=request.user,
+            reciever=reciever,
+            name=reciever.user.username,
+            type="fund",
+            amount=validated_data["amount"]
+        )
 
         return instance
 
@@ -66,4 +73,19 @@ class TransferWalledSerializer(serializers.Serializer):
         reciever.amount += attrs["amount"]
         reciever.save()
 
+        History.objects.create(
+            user=request.user,
+            reciever=reciever,
+            name=reciever.user.username,
+            type="transfer",
+            amount=attrs["amount"]
+        )
+
         return attrs
+
+
+class HistorySerilizer(serializers.ModelSerializer):
+
+    class Meta:
+        model = History
+        fields = ["name", "amount", "action", "date"]

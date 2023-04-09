@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from .models import History
-from .serializers import FundWalletSerializer, WalletSerializer, TransferWalledSerializer
+from .serializers import FundWalletSerializer, WalletSerializer, TransferWalledSerializer, HistorySerilizer
 
 
 class FundWalletView(generics.UpdateAPIView):
@@ -35,3 +35,12 @@ class RetrieveWalletView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user.wallet
+
+
+class FetchHistoryView(generics.ListAPIView):
+
+    serializer_class = HistorySerilizer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return History.objects.filter(user=self.request.user)
