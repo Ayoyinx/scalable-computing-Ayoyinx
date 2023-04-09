@@ -40,7 +40,7 @@ class FundWalletSerializer(serializers.ModelSerializer):
             user=request.user,
             reciever=reciever,
             name=reciever.user.username,
-            type="fund",
+            action="fund",
             amount=validated_data["amount"]
         )
 
@@ -76,7 +76,7 @@ class TransferWalledSerializer(serializers.Serializer):
             user=request.user,
             reciever=reciever,
             name=reciever.user.username,
-            type="transfer",
+            action="transfer",
             amount=attrs["amount"]
         )
 
