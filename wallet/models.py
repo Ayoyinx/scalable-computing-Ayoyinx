@@ -11,14 +11,10 @@ User = get_user_model()
 class Wallet(models.Model):
 
     def generate_id(self):
-        id = randint(11111111111, 99999999999)
 
-        while (Wallet.objects.filter(id=id).exists()):
-            id = randint(11111111111, 99999999999)
+        return randint(int('1'*15), int('9'*15))
 
-        return id
-
-    id = models.PositiveIntegerField(
+    id = models.PositiveBigIntegerField(
         primary_key=True,
         unique=True,
         null=False,
