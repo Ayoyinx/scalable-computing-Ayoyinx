@@ -32,7 +32,8 @@ class BookStoreAuthSerializer(serializers.Serializer):
     code = serializers.CharField(max_length=100)
 
     def validate(self, attrs):
-        token_response = requests.post('http://booksoreapi-env.eba-3igtf73b.us-east-1.elasticbeanstalk.com/oauth/token/', data={
+        url = "http://booksoreapi-env.eba-3igtf73b.us-east-1.elasticbeanstalk.com/oauth/token/"
+        token_response = requests.post(url=url, data={
             'code': attrs["code"],
             'client_id': settings.BOOK_STORE_CLIENT_ID,
             'client_secret': settings.BOOK_STORE_CLIENT_SECRET,
