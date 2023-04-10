@@ -4,7 +4,7 @@ from rest_framework import status
 from rest_framework.response import Response
 
 from .models import History
-from .serializers import FundWalletSerializer, WalletSerializer, TransferWalledSerializer, HistorySerilizer
+from .serializers import FundWalletSerializer, WalletSerializer, TransferWalletSerializer, HistorySerilizer
 
 
 class FundWalletView(generics.UpdateAPIView):
@@ -16,7 +16,7 @@ class FundWalletView(generics.UpdateAPIView):
 
 
 class TransferFundView(generics.GenericAPIView):
-    serializer_class = TransferWalledSerializer
+    serializer_class = TransferWalletSerializer
     permission_classes = [IsAuthenticated]
 
     def post(self, request):

@@ -8,12 +8,14 @@ from django.contrib.auth.hashers import make_password
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
 from oauth2_provider.contrib.rest_framework.authentication import OAuth2Authentication
 from oauth2_provider.contrib.rest_framework.permissions import TokenHasScope
 
 from .forms import LoginForm
+from wallet.serializers import TransferWalletSerializer
 from . import serializers
 
 
@@ -37,22 +39,17 @@ class LoginOauthView(generic.FormView):
         return redirect(self.request.GET["next"])
 
 
-class FinanceTrackerAuthView(generics.GenericAPIView):
-    serializer_class = ...
-
-    def post(self, request):
-        ...
-
-
-class DeductAmountView(generics.GenericAPIView):
-    permission_classes = TokenHasScope
-    required_scopes = ["deduct amount"]
-    serializer_class = ...
+class TransferAmountView(generics.GenericAPIView):
+    permission_classes = [IsAuthenticated, TokenHasScope]
+    required_scopes = ["transfer"]
+    serializer_class = TransferWalletSerializer
     authentication_classes = [OAuth2Authentication]
 
     def post(self, request):
         serializer = self.get_serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
+
+        return Response({"status": "success", "message": "Transfer Successful"}, status=status.HTTP_200_OK)
 
 
 class BookStoreAuthView(generics.GenericAPIView):

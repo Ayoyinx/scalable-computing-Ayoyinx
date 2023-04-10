@@ -1,0 +1,98 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="{% static '/favicon.ico' %}" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="The number one fastest wallet in the universe" />
+  <link rel="apple-touch-icon" href="{% static '/logo192.png' %}" />
+  <link rel="manifest" href="{% static '/manifest.json' %}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,700;0,900;1,400&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap"
+    rel="stylesheet" />
+  <title>Fast wallet</title>
+  <link href="{% static 'css/main.176e622a.css' %}" rel="stylesheet" />
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root">
+    <div class="w-full">
+      <header class="w-full fixed top-0 left-0 z-40 shadow-sm bg-white">
+        <div class="container mx-auto py-4 flex items-center justify-between px-2 sm:px-0">
+          <a href="/"><img src="{% static 'media/logo-home.57cfca4dfb11ec4098e3d188cd36cd52.svg' %}"
+              alt="Logo for FinTrack" /></a>
+          <div class="flex flex-row items-center justify-between space-x-10">
+            <a class="text-lg font-medium text-black flex" href="/login"><span>Login</span></a><a
+              class="rounded-md items-center text-lg font-medium px-8 py-3.5 bg-primary text-white drop-shadow-lg active:drop-shadow-none hover:bg-primaryLight flex"
+              href="/signup"><span>Sign up</span></a>
+          </div>
+        </div>
+      </header>
+      <main class="pt-[83px]">
+        <section id="formWrapper" class="w-full bg-primary">
+          <div class="container mx-auto py-10 flex flex-col lg:flex-row">
+            <article class="w-full flex justify-center items-center py-10">
+              <div
+                class="bg-primaryBackground rounded-xl p-6 max-w-xl w-full space-y-2 flex flex-col items-center drop-shadow-lg sm:p-10 sm:py-12 md:mx-0">
+                <div class="flex flex-col justify-center w-full">
+                  <h1 class="font-serif text-[40px] text-center font-bold text-black mb-5">
+                    Login
+                  </h1>
+                  <div class="flex flex-col items-start gap-x-16">
+                    <div class="w-full pb-6 self-stretch">
+                      <div class="flex flex-col items-center gap-4">
+                        <button
+                          class="group text-black text-base py-3 px-5 rounded-md bg-white flex items-center shadow-md gap-6 w-max">
+                          <img src="{% static 'media/google.fc40d321a3cc20d067af60c05c496b2c.svg' %}"
+                            class="h-6 w-6 transition-transform" alt="Google logo" /><span class="">Login with
+                            Google</span>
+                        </button>
+                      </div>
+                    </div>
+                    <article class="w-full flex flex-col items-center px-4 md:px-0 lg:items-start">
+                      <form id="login-form" method="post" class="w-full space-y-4 sm:space-y-4">
+                        {% csrf_token %}
+                        <div class="flex flex-col space-y-2">
+                          <label for="username" class="text-base font-semibold dark:text-zinc-100">Username
+                            <span class="text-red-600 dark:text-red-400"></span></label>
+                          <div>
+                            {{form.username}}
+                            <span class="mt-[2px] text-red-600 dark:text-red-400 text-base hidden"></span>
+                          </div>
+                        </div>
+                        <div class="flex flex-col space-y-2">
+                          <label for="password" class="text-base font-semibold dark:text-zinc-100">Password
+                            <span class="text-red-600 dark:text-red-400"></span></label>
+                          <div>
+                            {{form.password}}
+                            <span class="mt-[2px] text-red-600 dark:text-red-400 text-base hidden"></span>
+                          </div>
+                        </div>
+                        <div class="flex justify-center mt-8 sm:mt-10">
+                          <button type="submit"
+                            class="flex flex-row items-center text-base font-semibold px-5 py-4 bg-primary rounded-md justify-center text-white gap-x-2 drop-shadow-lg disabled:opacity-50 disabled:cursor-not-allowed active:drop-shadow-none hover:bg-primaryLight">
+                            <span class="text-lg sm:text-xl">Login</span>
+                          </button>
+                        </div>
+                      </form>
+                      <a class="text-lg text-black mt-5 group" href="/signup">Don't have an account?
+                        <span class="text-primary">Register</span></a>
+                    </article>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+</body>
+
+</html>

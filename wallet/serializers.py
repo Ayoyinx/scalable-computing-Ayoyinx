@@ -47,7 +47,7 @@ class FundWalletSerializer(serializers.ModelSerializer):
         return instance
 
 
-class TransferWalledSerializer(serializers.Serializer):
+class TransferWalletSerializer(serializers.Serializer):
 
     reciever = serializers.PrimaryKeyRelatedField(
         queryset=Wallet.objects.all(), required=True)

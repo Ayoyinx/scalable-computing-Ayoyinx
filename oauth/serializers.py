@@ -44,16 +44,8 @@ class BookStoreAuthSerializer(serializers.Serializer):
 
         if token_response.status_code != 200:
             # Return an error response if token exchange fails
-            data = {
-                'code': attrs["code"],
-                'client_id': settings.BOOK_STORE_CLIENT_ID,
-                'client_secret': settings.BOOK_STORE_CLIENT_SECRET,
-                'code_verifier': settings.BOOK_STORE_CODE_VERIFIER,
-                'redirect_uri': settings.BOOK_STORE_REDIRECT_URL,
-                'grant_type': 'authorization_code'
-            }
             raise serializers.ValidationError(
-                f'Failed to exchange authorization code for token: {token_response.content}, {data}')
+                f'Failed to exchange authorization code for token')
 
         attrs["token_res"] = token_response
 

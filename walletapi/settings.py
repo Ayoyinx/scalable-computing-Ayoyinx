@@ -61,7 +61,7 @@ ROOT_URLCONF = 'walletapi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR/"templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -133,6 +133,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR/"static"]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -149,7 +150,7 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = "account.Account"
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
-    'SCOPES': {'deduct amount': 'Ability to withdraw amount from account'}
+    'SCOPES': {'transfer': 'Ability to Transfer money from account'}
 }
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET"),
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")
@@ -159,3 +160,5 @@ BOOK_STORE_CLIENT_ID = os.getenv("BOOK_STORE_CLIENT_ID")
 BOOK_STORE_CLIENT_SECRET = os.getenv("BOOK_STORE_CLIENT_SECRET")
 BOOK_STORE_CODE_VERIFIER = os.getenv("BOOK_STORE_CODE_VERIFIER")
 BOOK_STORE_REDIRECT_URL = os.getenv("BOOK_STORE_REDIRECT_URL")
+
+LOGIN_URL = '/oauth/login/'
