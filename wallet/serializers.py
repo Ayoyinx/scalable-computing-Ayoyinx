@@ -89,4 +89,4 @@ class HistorySerilizer(serializers.ModelSerializer):
 
     class Meta:
         model = History
-        fields = ["name", "amount", "action", "uploaded", "date"]
+        fields = ["id", "name", "amount", "action", "uploaded", "date"]
