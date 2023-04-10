@@ -153,3 +153,41 @@ class GoogleAuthView(generics.GenericAPIView):
         }
 
         return Response(response, status=status.HTTP_200_OK)
+
+
+class UploadTransactionAuthView(generics.GenericAPIView):
+
+    serializer_class = serializers.UploadTransactionAuthSerializer
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        token_response = serializer.validated_data["token_res"]
+
+        token_data = token_response.json()
+        access_token = token_data['access_token']
+        history = serializer.validated_data["history"]
+        amount = history.amount
+
+        if history.type == "transfer":
+            amount = 0 - amount
+
+        response = requests.post(
+            "http://fianancetracker-env.eba-zzxqpwbf.us-east-1.elasticbeanstalk.com/oauth/add-transaction/",
+            headers={"Authorization": f"Bearer {access_token}"},
+
+            json={
+                "amount": amount,
+                "category": "wallet",
+                "date": history.date
+            }
+        )
+
+        if response.status_code != 200:
+            return Response({"status": "failed", "message": f"Unable to Perform Transaction"}, status=status.HTTP_400_BAD_REQUEST)
+
+        history.uploaded = True
+        history.save()
+
+        return Response({"status": "status", "message": "Book Purchased"})

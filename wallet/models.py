@@ -54,6 +54,7 @@ class History(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)
     name = models.CharField(max_length=120)
     reciever = models.ForeignKey(to=Wallet, on_delete=models.CASCADE)
+    uploaded = models.BooleanField(default=False, null=False, blank=False)
     action = models.CharField(
         max_length=15,
         choices=[
