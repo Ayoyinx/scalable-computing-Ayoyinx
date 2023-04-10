@@ -52,7 +52,7 @@ class TransferWalletSerializer(serializers.Serializer):
     reciever = serializers.PrimaryKeyRelatedField(
         queryset=Wallet.objects.all(), required=True)
     amount = serializers.FloatField(
-        min_value=100.0, max_value=45000.0, required=True)
+        min_value=0.1, max_value=45000.0, required=True)
 
     def validate(self, attrs):
 
