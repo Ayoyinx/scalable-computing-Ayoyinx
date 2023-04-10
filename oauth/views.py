@@ -46,7 +46,7 @@ class TransferAmountView(generics.GenericAPIView):
     authentication_classes = [OAuth2Authentication]
 
     def post(self, request):
-        serializer = self.get_serializer_class(data=request.data)
+        serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         return Response({"status": "success", "message": "Transfer Successful"}, status=status.HTTP_200_OK)
