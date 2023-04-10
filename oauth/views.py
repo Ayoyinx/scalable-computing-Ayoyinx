@@ -117,15 +117,11 @@ class GoogleAuthView(generics.GenericAPIView):
         access_token = token_data['access_token']
 
         user_response = requests.get(
-            f'http://booksoreapi-env.eba-3igtf73b.us-east-1.elasticbeanstalk.com/oauth/userinfo/',
-            headers={
-                'Authorization': f'Bearer {access_token}'
-            }
-        )
+            f'https://www.googleapis.com/oauth2/v1/userinfo?access_token={access_token}')
 
         if user_response.status_code != 200:
             # Return an error response if user info retrieval fails
-            return Response({'error': 'Failed to retrieve user info from Bookstore'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Failed to retrieve user info from Google'}, status=status.HTTP_400_BAD_REQUEST)
 
         user_data = user_response.json()
         email = user_data.get('email')
@@ -145,7 +141,7 @@ class GoogleAuthView(generics.GenericAPIView):
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
-                return Response({'error': 'Failed to authenticate user from BookStore'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Failed to authenticate user from Google'}, status=status.HTTP_400_BAD_REQUEST)
 
         token, _ = Token.objects.get_or_create(user=user)
         response = {
