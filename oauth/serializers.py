@@ -80,7 +80,12 @@ class UploadTransactionAuthSerializer(serializers.Serializer):
         try:
             attrs["history"] = History.objects.get(
                 history_id=attrs["history_id"])
-        except:
+
+            if attrs["history"].uploaded:
+                raise serializers.ValidationError(
+                    {"history_id": "Already Uploaded"})
+
+        except History.DoesNotExist:
             raise serializers.ValidationError(
                 {"history_id": "Invalid History Id"})
 
