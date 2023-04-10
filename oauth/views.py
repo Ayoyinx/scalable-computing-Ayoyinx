@@ -55,6 +55,18 @@ class DeductAmountView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
 
 
+class BookStoreAuthView(generics.GenericAPIView):
+    serializer_class = serializers.BookStoreAuthSerializer
+
+    def post(self, request):
+        serializer = self.get_serializer(data=self.request.data)
+        serializer.is_valid(raise_exception=True)
+
+        token_response = serializer.validated_data["token_res"]
+        token_data = token_response.json()
+        access_token = token_data['access_token']
+
+
 class GoogleAuthView(generics.GenericAPIView):
 
     serializer_class = serializers.GoogleAuthSerializer
@@ -70,16 +82,20 @@ class GoogleAuthView(generics.GenericAPIView):
         access_token = token_data['access_token']
 
         user_response = requests.get(
-            f'https://www.googleapis.com/oauth2/v1/userinfo?access_token={access_token}')
+            f'http://booksoreapi-env.eba-3igtf73b.us-east-1.elasticbeanstalk.com/oauth/userinfo/',
+            headers={
+                'Authorization': f'Bearer {access_token}'
+            }
+        )
 
         if user_response.status_code != 200:
             # Return an error response if user info retrieval fails
-            return Response({'error': 'Failed to retrieve user info from Google'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({'error': 'Failed to retrieve user info from Bookstore'}, status=status.HTTP_400_BAD_REQUEST)
 
         user_data = user_response.json()
         email = user_data.get('email')
-        first_name = user_data.get('given_name')
-        last_name = user_data.get('family_name')
+        first_name = user_data.get('first_name')
+        last_name = user_data.get('last_name')
 
         # Create a new user account with the user info
         try:
@@ -94,7 +110,7 @@ class GoogleAuthView(generics.GenericAPIView):
             try:
                 user = User.objects.get(email=email)
             except User.DoesNotExist:
-                return Response({'error': 'Failed to authenticate user from Google'}, status=status.HTTP_400_BAD_REQUEST)
+                return Response({'error': 'Failed to authenticate user from BookStore'}, status=status.HTTP_400_BAD_REQUEST)
 
         token, _ = Token.objects.get_or_create(user=user)
         response = {
