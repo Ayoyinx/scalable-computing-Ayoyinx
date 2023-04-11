@@ -87,7 +87,7 @@ class UploadTransactionAuthSerializer(serializers.Serializer):
 
         try:
             attrs["history"] = History.objects.get(
-                history_id=attrs["history_id"])
+                id=attrs["history_id"])
 
             if attrs["history"].uploaded:
                 raise serializers.ValidationError(
