@@ -176,7 +176,7 @@ class UploadTransactionAuthView(generics.GenericAPIView):
             json={
                 "amount": amount,
                 "category": "wallet",
-                "date": history.date
+                "date": str(history.date)
             }
         )
 
