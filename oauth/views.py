@@ -166,7 +166,7 @@ class UploadTransactionAuthView(generics.GenericAPIView):
         history = serializer.validated_data["history"]
         amount = history.amount
 
-        if history.type == "transfer":
+        if history.action == "transfer":
             amount = 0 - amount
 
         response = requests.post(
