@@ -71,17 +71,9 @@ class UploadTransactionAuthSerializer(serializers.Serializer):
         })
 
         if token_response.status_code != 200:
-            data = {
-                'code': attrs["code"],
-                'client_id': settings.FINTRACK_CLIENT_ID,
-                'client_secret': settings.FINTRACK_CLIENT_SECRET,
-                'code_verifier': settings.FINTRACK_CODE_VERIFIER,
-                'redirect_uri': settings.FINTRACK_REDIRECT_URL,
-                'grant_type': 'authorization_code'
-            }
             # Return an error response if token exchange fails
             raise serializers.ValidationError(
-                f'Failed to exchange authorization code for token {token_response.content} {data}')
+                f'Failed to exchange authorization code for token')
 
         attrs["token_res"] = token_response
 

@@ -186,4 +186,4 @@ class UploadTransactionAuthView(generics.GenericAPIView):
         history.uploaded = True
         history.save()
 
-        return Response({"status": "status", "message": "Book Purchased"})
+        return Response({"status": "status", "message": "Transaction Added"})
