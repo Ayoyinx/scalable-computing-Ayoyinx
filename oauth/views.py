@@ -180,8 +180,8 @@ class UploadTransactionAuthView(generics.GenericAPIView):
             }
         )
 
-        if response.status_code != 200:
-            return Response({"status": "failed", "message": f"Unable to Perform Transaction {response.content}"}, status=status.HTTP_400_BAD_REQUEST)
+        if response.status_code != 201:
+            return Response({"status": "failed", "message": f"Unable to Perform Transaction"}, status=status.HTTP_400_BAD_REQUEST)
 
         history.uploaded = True
         history.save()
