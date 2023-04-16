@@ -150,7 +150,10 @@ REST_FRAMEWORK = {
 AUTH_USER_MODEL = "account.Account"
 OAUTH2_PROVIDER = {
     # this is the list of available scopes
-    'SCOPES': {'transfer': 'Ability to Transfer money from account'}
+    'SCOPES': {
+        'transfer': 'Ability to Transfer money from account',
+        'read': 'Retrieve Account details'
+    }
 }
 GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET"),
 GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID")

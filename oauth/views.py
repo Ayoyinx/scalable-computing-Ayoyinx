@@ -2,7 +2,7 @@ import requests
 
 from django.views import generic
 from django.shortcuts import redirect
-from django.contrib.auth import login, authenticate, get_user_model
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 
 from rest_framework import generics
@@ -22,21 +22,31 @@ from . import serializers
 User = get_user_model()
 
 
+class UserInfoView(generics.RetrieveAPIView):
+
+    serializer_class = serializers.UserInfoSerializer
+    permission_classes = [IsAuthenticated, TokenHasScope]
+    authentication_classes = [OAuth2Authentication]
+    required_scopes = ["read"]
+
+    def get_object(self):
+        return self.request.user
+
+
 class LoginOauthView(generic.FormView):
 
     template_name = "login.html"
     form_class = LoginForm
 
-    def form_valid(self, form):
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["request"] = self.request
 
-        username = form.cleaned_data["username"]
-        password = form.cleaned_data["password"]
+        return kwargs
 
-        user = authenticate(self.request, username=username, password=password)
+    def get_success_url(self):
 
-        login(self.request, user=user)
-
-        return redirect(self.request.GET["next"])
+        return self.request.GET["next"]
 
 
 class TransferAmountView(generics.GenericAPIView):

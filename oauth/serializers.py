@@ -1,9 +1,23 @@
 import requests
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 
 from wallet.models import History
+
+User = get_user_model()
+
+
+class UserInfoSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = [
+            "email",
+            "first_name",
+            "last_name",
+        ]
 
 
 class GoogleAuthSerializer(serializers.Serializer):
